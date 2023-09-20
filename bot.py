@@ -2,12 +2,10 @@ import asyncio
 import os
 # import pymysql.cursors
 
-from dotenv import load_dotenv
+from config_data.config import Config, load_config
 from aiogram import Bot, Dispatcher
-import handlers
+from handlers import user_handlers
 
-#
-load_dotenv()
 
 # try:
 #     connection = pymysql.connect(
@@ -26,7 +24,7 @@ load_dotenv()
 async def main():
     bot = Bot(token=os.getenv('BOT_TOKEN'))
     dp = Dispatcher()
-    dp.include_router(handlers.router)
+    dp.include_router(user_handlers.router)
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
