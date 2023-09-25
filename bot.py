@@ -4,8 +4,15 @@ import os
 
 from config_data.config import Config, load_config
 from aiogram import Bot, Dispatcher
-from handlers import user_handlers
+from handlers import user_handlers, other_handlers
+from keyboards.main_menu import set_main_menu
+from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.storage.memory import MemoryStorage
 
+
+class FSMWriteFinance(StatesGroup):
+    fill_minus = State()
+    fill_plus = State()
 
 # try:
 #     connection = pymysql.connect(
@@ -21,10 +28,23 @@ from handlers import user_handlers
 #     print(ex)
 
 
+cfg: Config = load_config()
+
+db: dict[int: dict[str: float]] = {}
+
+
 async def main():
-    bot = Bot(token=os.getenv('BOT_TOKEN'))
-    dp = Dispatcher()
+
+    bot = Bot(token=cfg.tg_bot.token, parse_mode='HTML')
+
+    state = MemoryStorage()
+
+    dp = Dispatcher(state=state)
+
     dp.include_router(user_handlers.router)
+    dp.include_router(other_handlers.router)
+
+    await set_main_menu(bot)
     await dp.start_polling(bot)
 
 if __name__ == '__main__':
