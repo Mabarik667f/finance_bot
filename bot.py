@@ -30,8 +30,14 @@ class FSMWriteFinance(StatesGroup):
 
 cfg: Config = load_config()
 
-db: dict[int: dict[str: float]] = {}
 
+user_dict_template = {
+    'income': 0,
+    'expanses': 0,
+}
+
+# Инициализируем "базу данных"
+db: dict[int: dict[str: float]] = {}
 
 async def main():
 
