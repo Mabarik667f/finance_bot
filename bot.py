@@ -1,6 +1,4 @@
 import asyncio
-import os
-# import pymysql.cursors
 
 from config_data.config import Config, load_config
 from aiogram import Bot, Dispatcher
@@ -13,31 +11,12 @@ from aiogram.fsm.storage.memory import MemoryStorage
 class FSMWriteFinance(StatesGroup):
     fill_minus = State()
     fill_plus = State()
-
-# try:
-#     connection = pymysql.connect(
-#         host='127.0.0.1',
-#         port=3306,
-#         user=os.getenv('USER'),
-#         password=os.getenv('PASSWORD'),
-#         database=os.getenv('NAME'),
-#         cursorclass=pymysql.cursors.DictCursor)
-#     print('Успешно')
-# except Exception as ex:
-#     print('Ошибка')
-#     print(ex)
+    fill_day = State()
+    fill_date = State()
 
 
 cfg: Config = load_config()
 
-
-user_dict_template = {
-    'income': 0,
-    'expanses': 0,
-}
-
-# Инициализируем "базу данных"
-db: dict[int: dict[str: float]] = {}
 
 async def main():
 
