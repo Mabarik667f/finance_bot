@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from config_data.config import Config, load_config
 from aiogram import Bot, Dispatcher
@@ -6,6 +7,10 @@ from handlers import user_handlers, other_handlers
 from keyboards.main_menu import set_main_menu
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
+
+
+# Инициализируем logger
+logger = logging.getLogger(__name__)
 
 
 class FSMWriteFinance(StatesGroup):
@@ -21,6 +26,16 @@ cfg: Config = load_config()  # загрузка конфига
 
 async def main():
     """Основные команды для запуска бота"""
+
+    # Конфигурируем логирование
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(filename)s:%(lineno)d #%(levelname)-8s '
+               '[%(asctime)s] - %(name)s - %(message)s'
+    )
+
+    # Стартовое сообщение о начала логирования
+    logger.info('Starting bot')
 
     bot = Bot(token=cfg.tg_bot.token, parse_mode='HTML')
 
