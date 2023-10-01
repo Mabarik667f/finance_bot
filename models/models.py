@@ -35,7 +35,7 @@ class TypeOfTransaction(BaseDataBase):
 
 class Transaction(BaseDataBase):
     """Модель для транзакций"""
-    amount = DecimalField(10, 2)
+    amount = DecimalField(10, 1)
     transaction_date = DateField(default=datetime.today().strftime('%Y-%m-%d'))
     user = ForeignKeyField(User)
     type_of_transaction = ForeignKeyField(TypeOfTransaction)

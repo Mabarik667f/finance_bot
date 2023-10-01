@@ -26,17 +26,29 @@ def get_stat_data(request: (CallbackQuery, Message),
                                                       start_date=start_date,
                                                       end_date=end_date)
 
-    if total_expense != 0:
-        ratio = total_income / total_expense
-        ratio = round(ratio * 100, 2)
-    else:
-        ratio = 0
+    # Преобразование строк в объекты datetime
+    start_d = datetime.strptime(start_date, "%Y-%m-%d")
+    end_d = datetime.strptime(end_date, "%Y-%m-%d")
 
+    # Расчет разницы между датами
+    delta = end_d - start_d
+
+    # Получение количества дней (с разницей в днях)
+    number_of_days = delta.days
+    if number_of_days != 0:
+        total_inc = total_income / number_of_days
+        total_exp = total_expense / number_of_days
+    else:
+        total_inc = total_income
+        total_exp = total_expense
+
+    # Если нет данных
     if total_expense == 0 and total_income == 0:
         LEXICON['cur_stat'] = LEXICON['no_data']
         return
 
-    LEXICON['cur_stat'] = f'Cоотношение расхода и дохода за выбранный период ⌚: {ratio}% \n' \
+    LEXICON['cur_stat'] = f'Средний доход 💰 за день: {round(total_inc, 1)}₽\n' \
+                          f'Средний расход 💳 за день: {round(total_exp, 1)}₽\n' \
                           f'\n' \
                           f'Расход: {total_expense}₽\n' \
                           f'Доход: {total_income}₽\n'
