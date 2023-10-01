@@ -2,7 +2,8 @@ from .models import *
 
 
 def get_or_create_user(id_user: int, name: str) -> None:
-
+    """Создаём пользователя в базе данных, если его там нет,
+    иначе игнорируем """
     db.connect()
 
     User.get_or_create(
@@ -13,7 +14,7 @@ def get_or_create_user(id_user: int, name: str) -> None:
 
 
 def add_transaction(id_user: int, income: (float, int), transaction) -> None:
-
+    """Добавляем запись дохода или расхода пользователя в раздел транзакций"""
     db.connect()
 
     Transaction.create(
@@ -27,19 +28,22 @@ def add_transaction(id_user: int, income: (float, int), transaction) -> None:
 def get_finance_request(user_id: int,
                         start_date: str,
                         end_date: str) -> tuple:
+    """Забираем данные о доходе и расходе за определённое время"""
     db.connect()
 
+    # сумма расходов
     total_expanse = Transaction.select(fn.SUM(Transaction.amount)).where(
-        (Transaction.user_id == user_id) &
-        (Transaction.type_of_transaction_id == 2) &
-        (Transaction.transaction_date >= start_date) &
-        (Transaction.transaction_date <= end_date)).scalar() or 0
+        (Transaction.user_id == user_id) &  # выбор нужного пользователя
+        (Transaction.type_of_transaction_id == 2) &  # выбор категории расхода
+        (Transaction.transaction_date >= start_date) &  # период больше или равной начальной дате
+        (Transaction.transaction_date <= end_date)).scalar() or 0  # период меньше или равной начальной дате
 
+    # сумма доходов
     total_income = Transaction.select(fn.SUM(Transaction.amount)).where(
-        (Transaction.user_id == 1575269140) &
-        (Transaction.type_of_transaction_id == 1) &
-        (Transaction.transaction_date >= start_date) &
-        (Transaction.transaction_date <= end_date)).scalar() or 0
+        (Transaction.user_id == user_id) &  # выбор нужного пользователя
+        (Transaction.type_of_transaction_id == 1) &  # выбор категории дохода
+        (Transaction.transaction_date >= start_date) &  # период больше или равной начальной дате
+        (Transaction.transaction_date <= end_date)).scalar() or 0  # период меньше или равной начальной дате
 
     db.close()
 
