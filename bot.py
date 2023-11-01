@@ -1,10 +1,12 @@
 import asyncio
 import logging
 
-from config_data.config import Config, load_config
+
+from aiogram.fsm.storage.redis import RedisStorage, Redis
+from Bot.config_data.config import Config, load_config
 from aiogram import Bot, Dispatcher
-from handlers import user_handlers, other_handlers
-from keyboards.main_menu import set_main_menu
+from Bot.handlers import user_handlers, other_handlers
+from Bot.keyboards.main_menu import set_main_menu
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.storage.memory import MemoryStorage
 
@@ -22,6 +24,11 @@ class FSMWriteFinance(StatesGroup):
 
 
 cfg: Config = load_config()  # загрузка конфига
+
+
+redis = Redis(host=cfg.db.db_host)
+
+storage = RedisStorage(redis=redis)
 
 
 async def main():

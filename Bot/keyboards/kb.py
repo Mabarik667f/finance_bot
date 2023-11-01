@@ -1,6 +1,6 @@
 from aiogram.types import (InlineKeyboardButton, KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardMarkup)
 from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
-from lexicon.lexicon import LEXICON
+from Bot.lexicon.lexicon import LEXICON
 
 # создание списка кнопок обычной клавиатуры
 buttons_main_menu: list[KeyboardButton] = [KeyboardButton(text=LEXICON['expenses']),

@@ -2,8 +2,8 @@ from datetime import datetime, timedelta
 
 from aiogram.types import CallbackQuery, Message
 
-from lexicon.lexicon import LEXICON
-from models.methods import get_finance_request
+from Bot.lexicon.lexicon import LEXICON
+from Bot.models.methods import get_finance_request
 
 # дата сегодняшнего дня
 default_date = datetime.today().strftime('%Y-%m-%d')

@@ -1,6 +1,6 @@
 from aiogram import Router
 from aiogram.types import Message
-from lexicon.lexicon import LEXICON
+from Bot.lexicon.lexicon import LEXICON
 
 
 router = Router()

@@ -4,32 +4,32 @@ from .models import *
 def get_or_create_user(id_user: int, name: str) -> None:
     """Создаём пользователя в базе данных, если его там нет,
     иначе игнорируем """
-    db.connect()
+    # db.connect()
 
     User.get_or_create(
         id=id_user,
         name=name
     )
-    db.close()
+    # db.close()
 
 
 def add_transaction(id_user: int, income: (float, int), transaction) -> None:
     """Добавляем запись дохода или расхода пользователя в раздел транзакций"""
-    db.connect()
+    # db.connect()
 
     Transaction.create(
         amount=income,
         user=id_user,
         type_of_transaction=transaction)
 
-    db.close()
+    # db.close()
 
 
 def get_finance_request(user_id: int,
                         start_date: str,
                         end_date: str) -> tuple:
     """Забираем данные о доходе и расходе за определённое время"""
-    db.connect()
+    # db.connect()
 
     # сумма расходов
     total_expanse = Transaction.select(fn.SUM(Transaction.amount)).where(
@@ -45,6 +45,6 @@ def get_finance_request(user_id: int,
         (Transaction.transaction_date >= start_date) &  # период больше или равной начальной дате
         (Transaction.transaction_date <= end_date)).scalar() or 0  # период меньше или равной начальной дате
 
-    db.close()
+    # db.close()
 
     return total_expanse, total_income

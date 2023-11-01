@@ -1,13 +1,14 @@
 from datetime import datetime
 
+
 from peewee import *
-from config_data.config import load_config
+from Bot.config_data.config import load_config
 
 # Загружаем конфиг
 cfg = load_config()
 
 # Инициализируем базу данных
-db = MySQLDatabase(cfg.db.db_name, user=cfg.db.db_user, password=cfg.db.db_password)
+db = MySQLDatabase(cfg.db.db_name, user=cfg.db.db_user, password=cfg.db.db_password, host='mysqldb', port=3306)
 
 
 class BaseDataBase(Model):
@@ -44,9 +45,9 @@ class Transaction(BaseDataBase):
         table_name = 'transactions'
 
 
-db.connect()
-
-# Создаём таблицы, если они не были созданы
+# db.connect()
+#
+# # Создаём таблицы, если они не были созданы
 db.create_tables([User, TypeOfTransaction, Transaction])
-
-db.close()
+#
+# db.close()

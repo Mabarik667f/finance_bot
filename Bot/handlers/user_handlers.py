@@ -3,12 +3,12 @@ from aiogram.exceptions import TelegramBadRequest
 from aiogram.filters import CommandStart, Command, StateFilter
 from aiogram.fsm.state import default_state
 from aiogram.types import Message, CallbackQuery
-from lexicon.lexicon import LEXICON
-from keyboards.kb import kb_main_menu_markup, inline_stat_markup, error_markup
+from Bot.lexicon.lexicon import LEXICON
+from Bot.keyboards.kb import kb_main_menu_markup, inline_stat_markup, error_markup
 from bot import FSMWriteFinance
 from aiogram.fsm.context import FSMContext
-from models.methods import get_or_create_user, add_transaction
-from services.services import get_stat_data, get_date
+from Bot.models.methods import get_or_create_user, add_transaction
+from Bot.services.services import get_stat_data, get_date
 
 
 import re
