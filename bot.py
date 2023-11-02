@@ -46,9 +46,11 @@ async def main():
 
     bot = Bot(token=cfg.tg_bot.token, parse_mode='HTML')
 
-    state = MemoryStorage()  # создаём хранилище состояний
+    redis = Redis(host=cfg.db.db_host)
 
-    dp = Dispatcher(state=state)
+    storage = RedisStorage(redis=redis)
+
+    dp = Dispatcher(storage=storage)
 
     # подключаем роутеры хендлеров к боту
     dp.include_router(user_handlers.router)
